@@ -1,0 +1,130 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Books API",
+    "description": "API para gerenciamento de livros.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "schemes": ["http"],
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "Obter a lista de livros",
+        "responses": {
+          "200": {
+            "description": "Lista de livros retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Adicionar um novo livro",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Dados do novo livro",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Livro adicionado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Erro de validação - título e autor são obrigatórios"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "put": {
+        "summary": "Atualizar um livro existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do livro a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Dados atualizados do livro",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Livro atualizado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Erro de validação - título e autor são obrigatórios"
+          },
+          "404": {
+            "description": "Livro não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um livro",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do livro a ser deletado"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Livro deletado com sucesso"
+          },
+          "404": {
+            "description": "Livro não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "title": {
+          "type": "string",
+          "example": "O Senhor dos Anéis"
+        },
+        "author": {
+          "type": "string",
+          "example": "J.R.R. Tolkien"
+        }
+      },
+      "required": ["title", "author"]
+    }
+  }
+}
